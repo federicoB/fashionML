@@ -40,7 +40,7 @@ if __name__ == '__main__':
       download_dataset.py --percent <argument>
      
     Options:
-      -p, --percent     Display help
+      -p, --percent     Percentage of the dataset to download
            
     '''
 
