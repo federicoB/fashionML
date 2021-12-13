@@ -18,6 +18,6 @@ class LinearAutoEncoder(nn.Module):
                                      nn.Unflatten(1, (3, img_height, img_width)))
 
     def forward(self, x):
-        x = self.encoder(x)
-        out = self.decoder(x)
-        return out
+        encoding = self.encoder(x)
+        out = self.decoder(encoding)
+        return encoding, out
