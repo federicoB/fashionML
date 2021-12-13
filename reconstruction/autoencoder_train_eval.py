@@ -16,7 +16,7 @@ img_height = 128
 img_width = 128
 
 
-def load_dataset():
+def load_dataset(percentage=100):
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Resize((128, 128)),
@@ -24,7 +24,7 @@ def load_dataset():
         # transforms.Normalize([0.5], [0.5])
     ])
     image_folder_full_path = os.path.join(os.path.dirname(os.getcwd()), "data")
-    feidegger = SimpleImageFolderDataset(image_folder_full_path, transform=transform)
+    feidegger = SimpleImageFolderDataset(percentage, image_folder_full_path, transform=transform)
     return feidegger
 
 
@@ -35,7 +35,6 @@ def autoencoder_train_eval(dataset, model_type=1,
 
     dataloader = DataLoader(dataset_subset, batch_size=batch_size, shuffle=False, num_workers=4)
 
-    model = None
     if model_type == 1:
         model = ConvAutoEncoder(img_height, img_width)
     else:

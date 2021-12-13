@@ -6,10 +6,12 @@ from torch.utils.data import Dataset
 
 
 class SimpleImageFolderDataset(Dataset):
-    def __init__(self, full_path, transform=None):
+    def __init__(self, percent=100, full_path="/data", transform=None):
         self.root_dir = full_path
         self.transform = transform
-        self.file_list = os.listdir(full_path)
+        all_files = os.listdir(full_path)
+        limit = int(len(all_files) * (percent / 100))
+        self.file_list = all_files[:limit]
 
     def __len__(self):
         return len(self.file_list)
