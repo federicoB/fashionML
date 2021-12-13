@@ -12,13 +12,25 @@ class ConvAutoEncoder(nn.Module):
             nn.ReLU(True),
             nn.Conv2d(in_channels=16, out_channels=32, kernel_size=3, stride=2),
             nn.ReLU(True),
+            nn.BatchNorm2d(num_features=32),
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=2),
+            nn.BatchNorm2d(num_features=64),
+            nn.ReLU(True),
+            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=2),
+            nn.ReLU(True),
             nn.Flatten(),
-            nn.Linear(in_features=7200, out_features=128)
+            nn.Linear(in_features=1152, out_features=128)
         )
         # Decoder Network
         self.decoder = nn.Sequential(
-            nn.Linear(in_features=128, out_features=7200),
-            nn.Unflatten(dim=1, unflattened_size=(32, 15, 15)),
+            nn.Linear(in_features=128, out_features=1152),
+            nn.Unflatten(dim=1, unflattened_size=(128, 3, 3)),
+            nn.ConvTranspose2d(in_channels=128, out_channels=64, kernel_size=3, stride=2),
+            nn.BatchNorm2d(num_features=64),
+            nn.ReLU(True),
+            nn.ConvTranspose2d(in_channels=64, out_channels=32, kernel_size=3, stride=2),
+            nn.BatchNorm2d(num_features=32),
+            nn.ReLU(True),
             nn.ConvTranspose2d(in_channels=32, out_channels=16, kernel_size=3, stride=2),
             nn.BatchNorm2d(num_features=16),
             nn.ReLU(True),
@@ -28,6 +40,6 @@ class ConvAutoEncoder(nn.Module):
             nn.ConvTranspose2d(in_channels=8, out_channels=3, kernel_size=3, stride=2, output_padding=1))
 
     def forward(self, x):
-        x = self.encoder(x)
-        out = self.decoder(x)
-        return out
+        encoding = self.encoder(x)
+        out = self.decoder(encoding)
+        return encoding, out
