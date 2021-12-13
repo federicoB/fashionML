@@ -4,8 +4,7 @@ import torch
 from docopt import docopt
 from scipy import spatial
 
-from autoencoder_train_eval import img_height, img_width
-from reconstruction.autoencoder_train_eval import load_dataset
+from load_dataset import img_height, img_width, load_dataset
 from reconstruction.models.conv_autoencoder import ConvAutoEncoder
 from reconstruction.models.linear_autoencoder import LinearAutoEncoder
 
@@ -29,7 +28,7 @@ if __name__ == '__main__':
     args = docopt(usage)
     model_type = args['--model_type'] if args['--model_type'] else 1
     if model_type == 1:
-        model = ConvAutoEncoder(img_height, img_width)
+        model = ConvAutoEncoder()
     else:
         model = LinearAutoEncoder(img_height, img_width)
 

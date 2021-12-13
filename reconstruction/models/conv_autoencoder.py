@@ -2,7 +2,7 @@ import torch.nn as nn
 
 
 class ConvAutoEncoder(nn.Module):
-    def __init__(self, img_height, img_width):
+    def __init__(self):
         super(ConvAutoEncoder, self).__init__()
         self.encoder = nn.Sequential(
             nn.Conv2d(in_channels=3, out_channels=8, kernel_size=3, stride=2),
