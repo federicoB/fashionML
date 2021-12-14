@@ -1,8 +1,14 @@
+# add current working directory to package discovery path
+import os
+import sys
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from docopt import docopt
 from torch.utils.data import DataLoader
+
+sys.path.append(os.getcwd())
 
 from load_dataset import load_dataset
 from reconstruction.models.conv_autoencoder import ConvAutoEncoder
@@ -46,14 +52,14 @@ if __name__ == '__main__':
     usage = '''
      
     Usage:
-      autoencoder_train_eval.py
-      autoencoder_train_eval.py --model_type <int> --epochs <epochs> --subdataset_size <size> --batch_size <size>
-      autoencoder_train_eval.py --e <epochs> --s <size> --b <size>
+      autoencoder_train.py
+      autoencoder_train.py --model_type <int> --epochs <epochs> --dataset_percent <percent> --batch_size <size>
+      autoencoder_train.py --e <epochs> --s <size> --b <size>
      
     Options:
       -m, --model_type          1 for Convolutional Autoencoder and 0 for Linear Autoencoder
       -e, --epochs              Training epochs
-      -s, --subdataset_size     Subsize of the dataset to use
+      -p, --dataset_percent     Percent of the dataset to use
       -b, --batch_size          Batch size
       
            

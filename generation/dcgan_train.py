@@ -1,9 +1,15 @@
+# add current working directory to package discovery path
+import os
+import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.optim as optim
 from torch import nn
 from torch.utils.data import DataLoader
+
+sys.path.append(os.getcwd())
 
 from dcgan_discriminator import FashionDiscriminator
 from load_dataset import load_dataset

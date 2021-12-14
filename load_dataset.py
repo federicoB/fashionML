@@ -15,6 +15,6 @@ def load_dataset(percentage=100):
         transforms.Resize((128, 128)),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
-    image_folder_full_path = os.path.join(os.path.dirname(os.getcwd()), "data")
+    image_folder_full_path = os.path.join(os.getcwd(), "data")
     feidegger = SimpleImageFolderDataset(percentage, image_folder_full_path, transform=transform)
     return feidegger

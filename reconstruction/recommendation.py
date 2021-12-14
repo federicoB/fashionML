@@ -1,8 +1,14 @@
+# add current working directory to package discovery path
+import os
+import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from docopt import docopt
 from scipy import spatial
+
+sys.path.append(os.getcwd())
 
 from load_dataset import img_height, img_width, load_dataset
 from reconstruction.models.conv_autoencoder import ConvAutoEncoder
@@ -32,7 +38,7 @@ if __name__ == '__main__':
     else:
         model = LinearAutoEncoder(img_height, img_width)
 
-    model_file_path = args['--model_file_path'] if args['--model_file_path'] else "autoencoder.pt"
+    model_file_path = args['--model_file_path'] if args['--model_file_path'] else "reconstruction/autoencoder.pt"
     query_item = args['--query_item'] if args['--query_item'] else 0
     dataset_percent = args['--dataset_percent'] if args['--dataset_percent'] else 5
 
