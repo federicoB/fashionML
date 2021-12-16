@@ -1,11 +1,11 @@
 # add current working directory to package discovery path
+import argparse
 import os
 import sys
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from docopt import docopt
 from torch.utils.data import DataLoader
 
 sys.path.append(os.getcwd())
@@ -48,31 +48,19 @@ def autoencoder_train(dataset, model_type=1, epochs=15, batch_size=5,
 
 
 if __name__ == '__main__':
-    # usage pattern
-    usage = '''
-     
-    Usage:
-      autoencoder_train.py
-      autoencoder_train.py --model_type <int> --epochs <epochs> --dataset_percent <percent> --batch_size <size>
-      autoencoder_train.py --e <epochs> --s <size> --b <size>
-     
-    Options:
-      -m, --model_type          1 for Convolutional Autoencoder and 0 for Linear Autoencoder
-      -e, --epochs              Training epochs
-      -p, --dataset_percent     Percent of the dataset to use
-      -b, --batch_size          Batch size
-      
-           
-    '''
+    parser = argparse.ArgumentParser(description='Train autoencoder model and save it to a file')
+    parser.add_argument("-m", "--model_type", type=int, default=1,
+                        help="1 for Convolutional Autoencoder and 0 for Linear Autoencoder")
+    parser.add_argument("-e", "--epochs", type=int, default=15,
+                        help="Training epochs")
+    parser.add_argument("-p", "--dataset_percent", type=int, default=100,
+                        help="Percent of the dataset to use")
+    parser.add_argument("-b", "--batch_size", type=int, default=10,
+                        help="Batch size")
 
-    args = docopt(usage)
-    model_type = args['--model_type'] if args['--model_type'] else 1
-    epochs = args['--epochs'] if args['--epochs'] else 15
-    dataset_percent = args['--dataset_percent'] if args['--dataset_percent'] else 100
-    batch_size = args['--batch_size'] if args['--batch_size'] else 10
+    args = vars(parser.parse_args())
+    feidegger = load_dataset(args["dataset_percent"])
 
-    feidegger = load_dataset(dataset_percent)
-
-    model = autoencoder_train(feidegger, model_type, epochs, batch_size)
+    model = autoencoder_train(feidegger, args["model_type"], args["epochs"], args["batch_size"])
 
     torch.save(model.state_dict(), "autoencoder.pt")

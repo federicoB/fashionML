@@ -1,9 +1,9 @@
+import argparse
 import json
 import os
 import urllib.request
 
 import requests
-from docopt import docopt
 from tqdm.autonotebook import tqdm  # tqdm/tqdm: A Fast, Extensible Progress Bar
 
 feidegger_file_name = "FEIDEGGER_release_1.1.json"
@@ -32,17 +32,9 @@ def download_dataset(percent=100):
 
 
 if __name__ == '__main__':
-    # usage pattern
-    usage = '''
-     
-    Usage:
-      download_dataset.py
-      download_dataset.py --percent <argument>
-     
-    Options:
-      -p, --percent     Percentage of the dataset to download
-           
-    '''
+    parser = argparse.ArgumentParser(description='Download feidegger dataset')
+    parser.add_argument("-p", "--percent", type=int, default=5,
+                        help="Percentage of the dataset to download")
 
-    args = docopt(usage)
-    download_dataset(args['--percent'])
+    args = vars(parser.parse_args())
+    download_dataset(args['percent'])
